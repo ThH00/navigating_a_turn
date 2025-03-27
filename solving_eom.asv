@@ -1,0 +1,35 @@
+
+beta = pi/3;
+m1 = 1;
+m2 = 1;
+l = 1;
+
+% solving for the u-coordinates
+tspan = [0 1];
+y0 = [0,0,0,1,0];
+[t,y] = ode45(@(t,y) GAeom(t,y,beta,m1,m2,l), tspan, u0);
+
+figure()
+hold on
+plot(y(:,1))
+
+figure()
+hold on
+plot(y(:,2))
+% 
+% % solving for the x-coordinates
+% H = [cos(beta + theta)/cos(beta), -l*sin(theta)*tan(beta), -sin(theta);
+%     sin(beta + theta)/cos(beta),  l*cos(theta)*tan(beta),  cos(theta);
+%     0, 1, 0];
+
+
+
+function dydt = GAeom(t,y,beta,m1,m2,l)
+    dydt = zeros(5,1);
+    % y1=x, y2=y, y3=theta, y4=u1, y5=u2 
+    dydt(1) = cos(beta + y(3))/cos(beta)*y(4) -l*sin(y(3))*tan(beta)*y(5);
+    dydt(2) = sin(beta + y(3))/cos(beta)*y(4) +l*cos(y(3))*tan(beta)*y(5);
+    dydt(3) = y(5);
+    dydt(4) = -(sin(beta)*y(5)*(y(4) + l*y(6)))/cos(beta);
+    dydt(5) = (sin(beta)*y(5)*(m1*y(4) + m2*y(4) + l*m1*y(5) + l*m2*y(5) - l*m1*cos(beta)^2*y(5)))/(cos(beta)*(l*m1 + l*m2 - l*m1*cos(beta)^2));
+end
