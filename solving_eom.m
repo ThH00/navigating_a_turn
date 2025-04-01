@@ -12,10 +12,22 @@ y0 = [0,0,0,1,0.1];
 figure()
 hold on
 plot(y(:,1))
+title('x')
 
 figure()
 hold on
 plot(y(:,2))
+title('y')
+
+figure()
+hold on
+plot(y(:,3))
+title('theta')
+
+figure()
+hold on
+plot(y(:,1),y(:,2))
+title('x vx y')
 
 % % solving for the x-coordinates
 % H = [cos(beta + theta)/cos(beta), -l*sin(theta)*tan(beta), -sin(theta);
@@ -29,15 +41,11 @@ function dydt = GAeom(t,y,beta,m1,m2,l)
     % y1=x, y2=y, y3=theta, y4=u1, y5=u2
     % the components of the matrix H relate the derivatives of x, y, and
     % thera to u1, u2, and u3
-    dydt(1) = cos(beta + y(3))/cos(beta)*y(4) -l*sin(y(3))*tan(beta)*y(5);
-    dydt(2) = sin(beta + y(3))/cos(beta)*y(4) +l*cos(y(3))*tan(beta)*y(5);
+    dydt(1) = cos(beta + y(3))/cos(beta)*y(4)+l*sin(y(3))*y(5); 
+    dydt(2) = sin(beta + y(3))/cos(beta)*y(4)-l*cos(y(3))*y(5);
     dydt(3) = y(5);
-    dydt(4) = -(sin(beta)*y(5)*(y(4) + l*y(5)))/cos(beta);
-    dydt(5) = (sin(beta)*y(5)*(m1*y(4) + m2*y(4) + l*m1*y(5) + l*m2*y(5) - l*m1*cos(beta)^2*y(5)))/(cos(beta)*(l*m1 + l*m2 - l*m1*cos(beta)^2));
+    dydt(4) = (y(5)*(m1*cos(beta) + m2*cos(beta) + m2*sin(beta))*(2*m2*cos(beta)^2*y(4) - m1*sin(2*beta)*y(4) - m2*sin(2*beta)*y(4) + 2*l*m1*cos(beta)^2*y(5) + 4*l*m2*cos(beta)^2*y(5)))/(2*m1^2*cos(beta) - 2*m2^2*cos(beta)^3 + 4*m2^2*cos(beta) + m2^2*sin(2*beta)*cos(beta) + 2*m2^2*cos(beta)^2*sin(beta) - m1^2*sin(2*beta)*sin(beta) - m2^2*sin(2*beta)*sin(beta) + 6*m1*m2*cos(beta) + m1*m2*sin(2*beta)*cos(beta) + 2*m1*m2*cos(beta)^2*sin(beta) - 2*m1*m2*sin(2*beta)*sin(beta));
+    dydt(5) = -(2*y(5)*(m1*cos(beta) + m2*cos(beta) + m2*sin(beta))*(m1*y(4) + m2*y(4) + l*m2*cos(beta)^2*y(5) - l*m1*cos(beta)*sin(beta)*y(5) - l*m2*cos(beta)*sin(beta)*y(5)))/(2*l*m1^2*cos(beta) + 4*l*m2^2*cos(beta) - 2*l*m2^2*cos(beta)^3 + 6*l*m1*m2*cos(beta) + l*m2^2*sin(2*beta)*cos(beta) + 2*l*m2^2*cos(beta)^2*sin(beta) - l*m1^2*sin(2*beta)*sin(beta) - l*m2^2*sin(2*beta)*sin(beta) + l*m1*m2*sin(2*beta)*cos(beta) + 2*l*m1*m2*cos(beta)^2*sin(beta) - 2*l*m1*m2*sin(2*beta)*sin(beta));
 end
 
-% function dudt = GAeom(t,u,beta,m1,m2,l)
-%     dudt = zeros(2,1);
-%     dudt(1) = -(sin(beta)*u(2)*(u(1) + l*u(2)))/cos(beta);
-%     dudt(2) = (sin(beta)*u(2)*(m1*u(1) + m2*u(1) + l*m1*u(2) + l*m2*u(2) - l*m1*cos(beta)^2*u(2)))/(cos(beta)*(l*m1 + l*m2 - l*m1*cos(beta)^2));
-% end
+% we still need to plot r2
