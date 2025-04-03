@@ -1,15 +1,12 @@
 
-beta = 0;
+beta = pi/3;
 m1 = 1;
 m2 = 1;
 l = 1;
 
-E1 = [1,0];
-E2 = [0,1];
-
 % solving for the u-coordinates
 tspan = [0 10];
-y0 = [0,0,0,1,0];
+y0 = [0,0,0,1,0.1];
 [t,y] = ode45(@(t,y) GAeom(t,y,beta,m1,m2,l), tspan, y0);
 
 
@@ -20,20 +17,17 @@ animation = VideoWriter('sleigh_angled.mp4', 'MPEG-4');
 animation.FrameRate = 10;
 open(animation);
 
-axis([min(y(:,1))-2*l, max(y(:,1))+2*l, min(y(:,2))-2*l, max(y(:,2))+2*l])
+axis([min(y(:,1)), max(y(:,1)), min(y(:,2)), max(y(:,2))])
 
 for i = 1:length(t)
 
     r1 = [y(i,1),y(i,2)];
-    e1 = cos(y(i,3))*E1+sin(y(i,3))*E2;
-    r2 = r1+l*e1;
+    e1 = cos()
 
 
-    particle1 = plot(r1(1),r1(2),'Marker','o','LineWidth',2,'Color','k');
+    particle1 = plot(y(i,1),y(i,2),'Marker','o','LineWidth',2,'Color','k');
     
-    particle2 = plot(r2(1),r2(2),'Marker','o','LineWidth',2,'Color','b');
-
-    rod = plot([r1(1), r2(1)], [r1(2), r2(2)],'LineWidth',2,'Color','k');
+    particle2 = 
 
 
     drawnow
@@ -41,8 +35,6 @@ for i = 1:length(t)
     writeVideo(animation, getframe(gcf))
 
     delete(particle1)
-    delete(particle2)
-    delete(rod)
 
 
 end
