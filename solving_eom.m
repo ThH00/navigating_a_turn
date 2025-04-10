@@ -1,5 +1,4 @@
-
-beta = 0;
+beta = pi/2;
 m1 = 1;
 m2 = 1;
 l = 1;
@@ -9,7 +8,7 @@ E2 = [0,1];
 
 % solving for the u-coordinates
 tspan = [0 10];
-y0 = [0,0,0,1,0];
+y0 = [0,0,0,1,1];
 [t,y] = ode45(@(t,y) GAeom(t,y,beta,m1,m2,l), tspan, y0);
 
 
@@ -87,8 +86,12 @@ function dydt = GAeom(t,y,beta,m1,m2,l)
     dydt(1) = cos(beta + y(3))/cos(beta)*y(4)+l*sin(y(3))*y(5); 
     dydt(2) = sin(beta + y(3))/cos(beta)*y(4)-l*cos(y(3))*y(5);
     dydt(3) = y(5);
-    dydt(4) = (y(5)*(m1*cos(beta) + m2*cos(beta) + m2*sin(beta))*(2*m2*cos(beta)^2*y(4) - m1*sin(2*beta)*y(4) - m2*sin(2*beta)*y(4) + 2*l*m1*cos(beta)^2*y(5) + 4*l*m2*cos(beta)^2*y(5)))/(2*m1^2*cos(beta) - 2*m2^2*cos(beta)^3 + 4*m2^2*cos(beta) + m2^2*sin(2*beta)*cos(beta) + 2*m2^2*cos(beta)^2*sin(beta) - m1^2*sin(2*beta)*sin(beta) - m2^2*sin(2*beta)*sin(beta) + 6*m1*m2*cos(beta) + m1*m2*sin(2*beta)*cos(beta) + 2*m1*m2*cos(beta)^2*sin(beta) - 2*m1*m2*sin(2*beta)*sin(beta));
-    dydt(5) = -(2*y(5)*(m1*cos(beta) + m2*cos(beta) + m2*sin(beta))*(m1*y(4) + m2*y(4) + l*m2*cos(beta)^2*y(5) - l*m1*cos(beta)*sin(beta)*y(5) - l*m2*cos(beta)*sin(beta)*y(5)))/(2*l*m1^2*cos(beta) + 4*l*m2^2*cos(beta) - 2*l*m2^2*cos(beta)^3 + 6*l*m1*m2*cos(beta) + l*m2^2*sin(2*beta)*cos(beta) + 2*l*m2^2*cos(beta)^2*sin(beta) - l*m1^2*sin(2*beta)*sin(beta) - l*m2^2*sin(2*beta)*sin(beta) + l*m1*m2*sin(2*beta)*cos(beta) + 2*l*m1*m2*cos(beta)^2*sin(beta) - 2*l*m1*m2*sin(2*beta)*sin(beta));
+    dydt(4) = (m1*y(5)*((sin(2*beta)*y(4))/2 - l*cos(beta)^2*y(5)))/(m2 + m1*cos(beta)^2);
+    dydt(5) = (2*y(5)*(m1*y(4) + m2*y(4) - (l*m1*sin(2*beta)*y(5))/2))/(l*(2*m2 + 2*m1*cos(beta)^2));
 end
 
-% we still need to plot r2
+% function dudt = GAeom(t,u,beta)
+%     dudt = zeros(2,1);
+%     dudt(1) = -(m1*u2*((sin(2*beta)*u1)/2 - l*cos(beta)^2*u2))/(m2 + m1*cos(beta)^2);
+%     dudt(2) = -(2*u2*(m1*u1 + m2*u1 - (l*m1*sin(2*beta)*u2)/2))/(l*(2*m2 + 2*m1*cos(beta)^2));
+% end
