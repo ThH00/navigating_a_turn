@@ -6,7 +6,13 @@ This repository contains three codes:
 3. `constrained_rolling_disk`: simulating a rolling disk that is constrained to make a constant angle with the vertical and to trace a circle
 
 ## angled_chaplygin_sleigh
-`get_eom` derives the equations of motion of the angled Chaplygin sleigh symbolically
+`get_eom` derives the Gibbs-Appell equations of motion of the angled Chaplygin sleigh symbolically
+
 `solve_eom` solves the obtained equations of motion
 
 ## three_wheeled_vehicle
+`get_eom` derives the Gibbs-Appell equations of motion of the three wheel vehicle rigid body numerically
+
+`solve_eom` solves the obtained equations of motion
+
+`get_animation` obtaines an animation of the results
